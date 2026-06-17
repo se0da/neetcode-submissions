@@ -1,0 +1,22 @@
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        
+        def dfs(i, r, c):
+            if i == len(word):
+                return True
+                
+            if r < 0 or c < 0 or r >= len(board) or c >= len(board[0]) or board[r][c] != word[i] or board[r][c] == '#':
+                return False
+    
+            tmp = board[r][c]
+            board[r][c] = '#'
+            res = dfs(i+1,r+1,c) or dfs(i+1,r-1,c) or dfs(i+1, r,c+1) or dfs(i+1,r,c-1)
+            board[r][c] = tmp
+            return res
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if dfs(0,i,j):
+                        return True
+        return False
